@@ -1,23 +1,51 @@
+using backend.Context;
+using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddDbContext<DataContext>(options =>
+                                            options.UseSqlite("Data Source=mydatabase.sqlite")
+                                          );
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy => policy
+            .WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+    );
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAngular");
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+// OpenAPI JSON
+app.MapOpenApi();
+
+// Scalar UI
+app.MapScalarApiReference(options =>
+{
+    options.WithTitle("Mi API 🚀");
+});
+
+// 🔥 Hacer que "/" redirija a Scalar
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/scalar");
+    return Task.CompletedTask;
+});
 
 app.Run();
