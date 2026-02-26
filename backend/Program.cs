@@ -1,7 +1,10 @@
 using backend.Context;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using SQLitePCL;
 
+
+Batteries_V2.Init();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -48,4 +51,11 @@ app.MapGet("/", context =>
     return Task.CompletedTask;
 });
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+    db.Database.EnsureCreated();
+}
+
 app.Run();
+
