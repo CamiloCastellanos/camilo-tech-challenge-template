@@ -15,24 +15,24 @@ namespace backend.Controllers
             _context = context;
         }
 
-        //[HttpPost]
-        //public Response Login([FromBody] string user, [FromBody] string password)
-        //{
-        //    Response response = new();
-        //    var code = 200;
-        //    try
-        //    {
-        //        response.Data = _context.User.FirstOrDefault(u => u.Email == user && u.Password == password);
-        //    }
-        //    catch
-        //    {
-        //        code = 500;
-        //        response.Message = "Sorry something went wrong, try again later";
-        //        response.Data = null;
-        //    }
-        //    response.StatusCode = code;
-        //    return response;
-        //}
+        [HttpPost]
+        public Response Login([FromBody] LoginRequest user)
+        {
+            Response response = new();
+            var code = 200;
+            try
+            {
+                response.Data = _context.User.FirstOrDefault(u => u.Email == user.User && u.Password == user.Password);
+            }
+            catch
+            {
+                code = 500;
+                response.Message = "Sorry something went wrong, try again later";
+                response.Data = null;
+            }
+            response.StatusCode = code;
+            return response;
+        }
 
         [HttpPost]
         public Response AddUser([FromBody] User user)
@@ -105,7 +105,7 @@ namespace backend.Controllers
             {
                 response.Data = _context.User.ToList();
             }
-            catch
+            catch(Exception ex) 
             {
                 code = 500;
                 response.Message = "Sorry something went wrong, try again later";

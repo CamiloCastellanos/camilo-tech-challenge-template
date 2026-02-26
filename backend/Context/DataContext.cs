@@ -1,6 +1,5 @@
 ﻿using backend.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace backend.Context
 {
