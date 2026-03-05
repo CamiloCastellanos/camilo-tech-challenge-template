@@ -42,6 +42,7 @@ namespace backend.Controllers
             try
             {
                 _context.User.Add(user);
+                _context.SaveChanges();
                 response.Data = true;
             }
             catch
@@ -63,6 +64,7 @@ namespace backend.Controllers
             try
             {
                 _context.User.Update(user);
+                _context.SaveChanges();
                 response.Data = true;
             }
             catch
@@ -83,6 +85,7 @@ namespace backend.Controllers
             try
             {
                 _context.User.Remove(user);
+                _context.SaveChanges();
                 response.Data = true;
             }
             catch
