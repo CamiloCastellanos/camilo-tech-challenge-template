@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../../shared/core/services/login';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { SessionStorage } from '../../shared/core/services/session-storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,13 @@ export class Login implements OnInit {
   public loginForm: FormGroup = new FormGroup({});
 
   constructor(private readonly fb: FormBuilder,
-    private readonly loginService: LoginService) { }
+    private readonly loginService: LoginService,
+    private readonly sessionStorage: SessionStorage,
+    private readonly router: Router) {
+    if (sessionStorage.isLoggedIn()) {
+      this.redirectHome()
+    }
+  }
 
   ngOnInit() {
     this.initForm();
@@ -44,6 +52,14 @@ export class Login implements OnInit {
       this.showAlert = true;
       this.loginForm.reset();
     }
+    this.sessionStorage.saveUser(response.data);
+    this.showAlert = false;
+    this.redirectHome();
+  }
+
+  private redirectHome() {
+    this.router.navigate(['/home']);
+
   }
 
 }
