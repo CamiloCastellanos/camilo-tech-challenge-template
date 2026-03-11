@@ -14,23 +14,52 @@
             </div>
             <div class="col-md-6 col-lg-7 d-flex align-items-center">
               <div class="card-body p-4 p-lg-5 text-black">
-                <form>
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px">
                     Sign into your account
                   </h5>
+                  @if (showAlert) {
+                    <ngb-alert type="danger" (closed)="closeAlert()">
+                      Incorrect email address or password
+                    </ngb-alert>
+                  }
 
                   <div class="form-outline mb-4">
-                    <input type="email" id="email" class="form-control form-control-lg" />
-                    <label class="form-label" for="email">Email address</label>
+                    <div class="has-validation">
+                      <input
+                        type="email"
+                        id="email"
+                        class="form-control form-control-lg"
+                        formControlName="email"
+                        placeholder="Email address"
+                        [class.is-invalid]="
+                          loginForm.get('email')?.touched && loginForm.get('email')?.invalid
+                        "
+                        [class.is-valid]="loginForm.get('email')?.valid"
+                      />
+                      @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+                        <label class="invalid-feedback">Please enter your email address</label>
+                      }
+                    </div>
                   </div>
-
                   <div class="form-outline mb-4">
-                    <input type="password" id="password" class="form-control form-control-lg" />
-                    <label class="form-label" for="password">Password</label>
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control form-control-lg"
+                      formControlName="password"
+                      placeholder="Password"
+                      [class.is-invalid]="
+                        loginForm.get('password')?.touched && loginForm.get('password')?.invalid
+                      "
+                    />
+                    @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+                      <label class="invalid-feedback">Please enter your Password</label>
+                    }
                   </div>
 
                   <div class="pt-1 mb-4">
-                    <button class="btn btn-dark btn-lg btn-block" type="button">Login</button>
+                    <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
                   </div>
                 </form>
               </div>

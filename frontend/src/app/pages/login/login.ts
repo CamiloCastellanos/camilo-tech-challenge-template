@@ -1,11 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LoginService } from '../../shared/core/services/login';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [ReactiveFormsModule, NgbAlert],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class Login {
+export class Login implements OnInit {
+  @ViewChild('errorAlert', { static: false }) staticAlert!: NgbAlert;
+  errorAlertClosed = false;
+  showAlert: boolean = false;
+  public loginForm: FormGroup = new FormGroup({});
+
+  constructor(private readonly fb: FormBuilder,
+    private readonly loginService: LoginService) { }
+
+  ngOnInit() {
+    this.initForm();
+  }
+
+  initForm() {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email], []],
+      password: ['', [Validators.required], []],
+    })
+  }
+
+  closeAlert() {
+    this.showAlert = false;
+  }
+
+  async login() {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    let response = await this.loginService.login(this.loginForm.value.email, this.loginForm.value.password);
+    if (response.data == null) {
+      this.showAlert = true;
+      this.loginForm.reset();
+    }
+  }
 
 }
