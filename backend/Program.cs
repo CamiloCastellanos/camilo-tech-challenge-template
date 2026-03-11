@@ -25,6 +25,12 @@ builder.Services.AddCors(options =>
     );
 });
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();
