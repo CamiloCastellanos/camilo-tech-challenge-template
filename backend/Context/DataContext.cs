@@ -14,10 +14,12 @@ namespace backend.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Name = "Admin", Email = "Admin@admin.com", Password = "123457", Image = "", UserType = UserType.Admin }
+                new User { Id = 1, Name = "Admin", Email = "Admin@admin.com", Password = "123457", Image = "", UserType = UserType.Admin },
+                new User { Id = 2, Name = "User", Email = "User@user.com", Password = "123457", Image = "", UserType = UserType.User }
             );
             modelBuilder.Entity<Menu>().HasData(
-                new Menu { Id = 1, Text = "Home", Page = "/", Icon = "" }
+                new Menu { Id = 1, Text = "Home", Page = "/", Icon = "home" },
+                new Menu { Id = 2, Text = "User", Page = "/user", Icon = "gear" }
             );
         }
 
