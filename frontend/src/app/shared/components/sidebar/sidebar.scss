@@ -108,7 +108,14 @@ body {
 }
 
 .sidebar.collapsed .profile-info {
+  transition: opacity 0.3s ease;
   opacity: 0;
+  display: none;
+}
+
+.sidebar.collapsed .logOut h6 {
+  opacity: 0;
+    display: none;
 }
 
 /* centrar iconos */
