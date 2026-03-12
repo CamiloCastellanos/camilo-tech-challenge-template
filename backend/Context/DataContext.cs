@@ -14,8 +14,8 @@ namespace backend.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Name = "Admin", Email = "Admin@admin.com", Password = "123457", Image = "", UserType = UserType.Admin },
-                new User { Id = 2, Name = "User", Email = "User@user.com", Password = "123457", Image = "", UserType = UserType.User }
+                new User { Id = 1, Name = "Admin", Email = "Admin@admin.com", Password = "123457", Image = "https://randomuser.me/api/portraits/women/70.jpg", UserType = UserType.Admin },
+                new User { Id = 2, Name = "User", Email = "User@user.com", Password = "123457", Image = "https://randomuser.me/api/portraits/women/7.jpg", UserType = UserType.User }
             );
             modelBuilder.Entity<Menu>().HasData(
                 new Menu { Id = 1, Text = "Home", Page = "/", Icon = "home" },

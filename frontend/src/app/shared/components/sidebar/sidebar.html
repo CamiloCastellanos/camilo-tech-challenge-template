@@ -27,14 +27,11 @@
     </div>
 
     <div class="profile-section mt-auto p-4">
-      <div class="d-flex align-items-center justify-content-center mb-2">
-        <img
-          src="https://randomuser.me/api/portraits/women/70.jpg"
-          style="height: 60px"
-          class="rounded-circle"
-          alt="Profile"
-        />
-      </div>
+      @if (user.image != null && user.image != '') {
+        <div class="d-flex align-items-center justify-content-center mb-2">
+          <img [src]="user.image" style="height: 60px" class="rounded-circle" alt="Profile" />
+        </div>
+      }
       <div class="d-flex align-items-center justify-content-center text-center">
         <div class="ms-3 profile-info">
           <h6 class="text-white mb-0">{{ user.email }}</h6>
