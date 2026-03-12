@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SessionStorage } from './session-storage';
 import { User } from '../../../models/user';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private loggedUserSubject = new BehaviorSubject<boolean>(false);
+  private readonly loggedUserSubject = new BehaviorSubject<boolean>(false);
   loggedUser$: Observable<boolean> = this.loggedUserSubject.asObservable();
-  constructor(private sessionStorage: SessionStorage) {
+  constructor(private readonly sessionStorage: SessionStorage,
+    private readonly route: Router) {
     this.verifyInitialSession();
   }
 
@@ -30,6 +32,7 @@ export class AuthService {
   logOut() {
     this.sessionStorage.clear();
     this.loggedUserSubject.next(false);
+    this.route.navigate(['/login']);
   }
 
   getUser() {
