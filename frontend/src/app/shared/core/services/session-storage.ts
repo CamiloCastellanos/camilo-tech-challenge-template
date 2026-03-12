@@ -13,4 +13,8 @@ export class SessionStorage {
     sessionStorage.setItem('user', JSON.stringify(user));
   }
 
+  getUser() {
+    return sessionStorage.getItem('user');
+  }
+
 }

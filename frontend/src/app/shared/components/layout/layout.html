@@ -1,0 +1,5 @@
+@if (loggedUser$| async; as logged) {
+  <sidebar></sidebar>
+} @else {
+  <router-outlet></router-outlet>
+}

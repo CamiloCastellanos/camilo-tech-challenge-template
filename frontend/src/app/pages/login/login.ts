@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../../shared/core/services/login';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
-import { SessionStorage } from '../../shared/core/services/session-storage';
 import { Router } from '@angular/router';
+import { AuthService } from '../../shared/core/services/auth-service';
 
 @Component({
   selector: 'app-login',
@@ -19,9 +19,9 @@ export class Login implements OnInit {
 
   constructor(private readonly fb: FormBuilder,
     private readonly loginService: LoginService,
-    private readonly sessionStorage: SessionStorage,
+    private readonly authService: AuthService,
     private readonly router: Router) {
-    if (sessionStorage.isLoggedIn()) {
+    if (authService.verifySession()) {
       this.redirectHome()
     }
   }
@@ -52,14 +52,13 @@ export class Login implements OnInit {
       this.showAlert = true;
       this.loginForm.reset();
     }
-    this.sessionStorage.saveUser(response.data);
+    this.authService.setSesion(response.data);
     this.showAlert = false;
     this.redirectHome();
   }
 
   private redirectHome() {
     this.router.navigate(['/home']);
-
   }
 
 }
