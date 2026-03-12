@@ -5,11 +5,15 @@ import { User, UserType } from '../../../models/user';
   providedIn: 'root',
 })
 export class SessionStorage {
+  clear() {
+    sessionStorage.clear()
+  }
+
   isLoggedIn(): boolean {
     return !!sessionStorage.getItem('user');
   }
 
-  saveUser(user: User) {
+  setUser(user: User) {
     sessionStorage.setItem('user', JSON.stringify(user));
   }
 
