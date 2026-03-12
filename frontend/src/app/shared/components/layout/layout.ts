@@ -16,6 +16,5 @@ export class Layout {
   loggedUser$: Observable<boolean>;
   constructor(readonly authService: AuthService) {
     this.loggedUser$ = authService.loggedUser$;
-    console.log(this.loggedUser$)
   }
 }
