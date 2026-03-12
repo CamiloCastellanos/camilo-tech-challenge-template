@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../../shared/core/services/login';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +12,6 @@ import { AuthService } from '../../shared/core/services/auth-service';
   styleUrl: './login.scss',
 })
 export class Login implements OnInit {
-  @ViewChild('errorAlert', { static: false }) staticAlert!: NgbAlert;
   errorAlertClosed = false;
   showAlert: boolean = false;
   public loginForm: FormGroup = new FormGroup({});
@@ -51,8 +50,11 @@ export class Login implements OnInit {
     if (response.data == null) {
       this.showAlert = true;
       this.loginForm.reset();
+      return;
     }
-    this.authService.setSesion(response.data);
+    if (response.data && !Array.isArray(response.data)) {
+      this.authService.setSesion(response.data);
+    }
     this.showAlert = false;
     this.redirectHome();
   }
