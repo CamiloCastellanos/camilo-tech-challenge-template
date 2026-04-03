@@ -14,7 +14,7 @@ import { AuthService } from '../../shared/core/services/auth-service';
 export class Login implements OnInit {
   errorAlertClosed = false;
   showAlert: boolean = false;
-  public loginForm: FormGroup = new FormGroup({});
+  loginForm: FormGroup = new FormGroup({});
 
   constructor(private readonly fb: FormBuilder,
     private readonly loginService: LoginService,
@@ -52,7 +52,7 @@ export class Login implements OnInit {
       this.loginForm.reset();
       return;
     }
-    if (response.data && !Array.isArray(response.data)) {
+    if (response.data && !Array.isArray(response.data) && typeof response.data != 'boolean') {
       this.authService.setSesion(response.data);
     }
     this.showAlert = false;

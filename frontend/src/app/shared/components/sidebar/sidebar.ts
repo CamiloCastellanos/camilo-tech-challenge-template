@@ -59,11 +59,11 @@ export class Sidebar implements OnInit {
     let response = await this.sidebarService.getMenu();
     if (response.statusCode != 200) {
       this.menu = [{ "id": 1, "text": "Home", "page": "/", "icon": "home" }]
-      return
+      return;
     }
 
     if (Array.isArray(response.data)) {
-      this.menu = response.data;
+      this.menu = response.data as Menu[];
     }
   }
 }

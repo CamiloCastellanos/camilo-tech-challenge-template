@@ -1,0 +1,112 @@
+<button class="btn btn-primary rounded-circle btn-add" (click)="open(content)">
+  <fa-icon [icon]="faPlus"></fa-icon>
+</button>
+
+<ng-template #content let-modal>
+  <div class="modal-header d-flex flex-row align-items-center justify-content-center">
+    <h4 class="modal-title" id="modal-basic-title">New User</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="userForm" (ngSubmit)="addUser()">
+      @if (showAlert) {
+        <ngb-alert type="danger" (closed)="closeAlert()">
+          Incorrect email address or password
+        </ngb-alert>
+      }
+
+      <div class="form-outline mb-4">
+        <div class="has-validation">
+          <div class="d-flex flex-row align-items-center">
+            <fa-icon [icon]="faUser" class="me-2"></fa-icon>
+            <input
+              type="text"
+              id="name"
+              class="form-control form-control-lg"
+              formControlName="name"
+              placeholder="User Name"
+              [class.is-invalid]="userForm.get('name')?.touched && userForm.get('name')?.invalid"
+              [class.is-valid]="userForm.get('name')?.valid"
+            />
+          </div>
+          @if (userForm.get('name')?.touched && userForm.get('name')?.invalid) {
+            <div class="invalid-feedback d-block">Please enter the username</div>
+          }
+        </div>
+      </div>
+
+      <div class="form-outline mb-4">
+        <div class="has-validation">
+          <div class="d-flex flex-row align-items-center">
+            <fa-icon [icon]="faAt" class="me-2"></fa-icon>
+            <input
+              type="email"
+              id="email"
+              class="form-control form-control-lg"
+              formControlName="email"
+              placeholder="Email address"
+              [class.is-invalid]="userForm.get('email')?.touched && userForm.get('email')?.invalid"
+              [class.is-valid]="userForm.get('email')?.valid"
+            />
+          </div>
+
+          @if (userForm.get('email')?.touched && userForm.get('email')?.invalid) {
+            <label class="invalid-feedback d-block">Please enter your email address</label>
+          }
+        </div>
+      </div>
+      <div class="form-outline mb-4">
+        <div class="has-validation">
+          <div class="d-flex flex-row align-items-center">
+            <fa-icon [icon]="faKey" class="me-2"></fa-icon>
+            <input
+              type="password"
+              id="password"
+              class="form-control form-control-lg"
+              formControlName="password"
+              placeholder="Password"
+              [class.is-invalid]="
+                userForm.get('password')?.touched && userForm.get('password')?.invalid
+              "
+            />
+          </div>
+          @if (userForm.get('password')?.touched && userForm.get('password')?.invalid) {
+            <label class="invalid-feedback d-block">Please enter your Password</label>
+          }
+        </div>
+      </div>
+
+      <div class="form-outline mb-4">
+        <div class="has-validation">
+          <div class="d-flex flex-row align-items-center">
+            <fa-icon [icon]="fileShield" class="me-2"></fa-icon>
+            <select
+              id="userType"
+              class="form-control form-control-lg"
+              formControlName="userType"
+              [class.is-invalid]="
+                userForm.get('userType')?.touched && userForm.get('userType')?.invalid
+              "
+            >
+              <option value="" disabled>Select role</option>
+              @for (type of userTypes; track type.value) {
+                <option [value]="type.value">{{ type.label }}</option>
+              }
+            </select>
+          </div>
+          @if (userForm.get('userType')?.touched && userForm.get('userType')?.invalid) {
+            <div class="invalid-feedback d-block">Please select a role</div>
+          }
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="addUser()">Save</button>
+  </div>
+</ng-template>
