@@ -2,6 +2,7 @@ using backend.Context;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using SQLitePCL;
+using System.Text.Json.Serialization;
 
 
 Batteries_V2.Init();
@@ -29,6 +30,7 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
 var app = builder.Build();
